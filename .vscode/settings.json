@@ -1,0 +1,48 @@
+{
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "skeleton.json",
+                "globals.json"
+            ],
+            "url": "./schema/schema.json"
+        },
+        {
+            "fileMatch": [
+                "globals.json"
+            ],
+            "url": "./schema/globals-schema.json"
+        }
+    ],
+    "editor.formatOnSave": true,
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                "match": ".*",
+                "cmd": "node sortStyles.js",
+                "runOn": "save",
+                "autoSave": false,
+            }
+        ]
+    },
+    "cSpell.words": [
+        "Bento",
+        "Ccwrap",
+        "cwrap",
+        "cwrapomit",
+        "Ecommerce",
+        "evenodd",
+        "fieldset",
+        "linkcwrap",
+        "microframework",
+        "nbsp",
+        "Photosnap",
+        "previewnod",
+        "Rajdhani",
+        "rgba",
+        "stylesheet",
+        "tabindex",
+        "webp",
+        "сwrap"
+    ]
+}
