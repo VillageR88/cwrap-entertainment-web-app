@@ -38,6 +38,16 @@
       "style": "navigation: auto;"
     },
     {
+      "name": "nav, ul, li",
+      "type": "element",
+      "style": "box-sizing: border-box; list-style: none; margin: 0; padding: 0;"
+    },
+    {
+      "name": "button",
+      "type": "element",
+      "style": "background-color: unset; border: unset; cursor: pointer; padding: 0;"
+    },
+    {
       "name": "h1",
       "type": "element",
       "mediaQueries": [
