@@ -8,55 +8,6 @@
       }
     ]
   },
-  "element": "body",
-  "style": "background-color: #10141E; box-sizing: border-box; display: flex; font-family: 'Outfit', sans-serif, serif; margin: 0; max-width: 90em; min-height: 100dvh; padding: 2em;",
-  "children": [
-    {
-      "element": "nav",
-      "style": "align-items: center; background-color: #161D2F; border-radius: 1.25em; display: flex; flex-direction: column; height: 100%; max-height: 60em; min-height: 30em; min-width: 6em; padding: 2.213em 0 2em 0; position: absolute;",
-      "children": [
-        {
-          "element": "svg",
-          "attributes": {
-            "width": "33",
-            "height": "27",
-            "xmlns": "http://www.w3.org/2000/svg"
-          },
-          "children": [
-            {
-              "element": "path",
-              "attributes": {
-                "d": "m26.463.408 3.2 6.4h-4.8l-3.2-6.4h-3.2l3.2 6.4h-4.8l-3.2-6.4h-3.2l3.2 6.4h-4.8l-3.2-6.4h-1.6a3.186 3.186 0 0 0-3.184 3.2l-.016 19.2a3.2 3.2 0 0 0 3.2 3.2h25.6a3.2 3.2 0 0 0 3.2-3.2V.408h-6.4Z",
-                "fill": "#FC4747"
-              }
-            }
-          ]
-        },
-        {
-          "element": "ul",
-          "style": "display: flex; flex-direction: column; gap: 2.5em; margin-top: 4.69em;",
-          "blueprint": {
-            "count": "4",
-            "element": "li",
-            "style": "display: flex;",
-            "children": [
-              {
-                "element": "cwrap-template",
-                "text": "cwrapTemplate[cwrapArray[homeButton,moviesButton,tvSeriesButton,bookmarkButton]]"
-              }
-            ]
-          }
-        },
-        {
-          "element": "img",
-          "style": "border: 1px solid white; border-radius: 50%; margin-top: auto;",
-          "attributes": {
-            "src": "./static/images/image-avatar.png",
-            "height": "40",
-            "width": "40"
-          }
-        }
-      ]
-    }
-  ]
+  "element": "cwrap-template",
+  "text": "cwrapTemplate[body({{return `${cwrapRoute}Route=white`}})]"
 }

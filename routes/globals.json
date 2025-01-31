@@ -38,9 +38,14 @@
       "style": "navigation: auto;"
     },
     {
-      "name": "nav, ul, li",
+      "name": "ul",
       "type": "element",
       "style": "box-sizing: border-box; list-style: none; margin: 0; padding: 0;"
+    },
+    {
+      "name": "nav, li",
+      "type": "element",
+      "style": "box-sizing: border-box; margin: 0; padding: 0;"
     },
     {
       "name": "button",
