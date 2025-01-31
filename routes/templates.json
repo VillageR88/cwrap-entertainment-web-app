@@ -54,13 +54,13 @@
         ]
     },
     {
-        "element": "button",
+        "element": "a",
         "name": "homeButton",
-        "style": "display: flex; fill: cwrapProperty[Route=#5A698F]; transition: 300ms;",
+        "style": "display: flex; fill: {{return cwrapRoute===''?'white':'#5A698F'}}; transition: 300ms;",
         "extend": [
             {
                 "extension": ":hover",
-                "style": "fill: cwrapProperty[Route=#FC4747];"
+                "style": "fill: {{return cwrapRoute===''?'white':'#FC4747'}};"
             }
         ],
         "children": [
@@ -80,16 +80,19 @@
                     }
                 ]
             }
-        ]
+        ],
+        "attributes": {
+            "href": "./"
+        }
     },
     {
-        "element": "button",
+        "element": "a",
         "name": "moviesButton",
-        "style": "display: flex; fill: cwrapProperty[moviesRoute=#5A698F]; transition: 300ms;",
+        "style": "display: flex; fill: {{return cwrapRoute==='movies'?'white':'#5A698F'}}; transition: 300ms;",
         "extend": [
             {
                 "extension": ":hover",
-                "style": "fill: cwrapProperty[moviesRoute=#FC4747];"
+                "style": "fill: {{return cwrapRoute==='movies'?'white':'#FC4747'}};"
             }
         ],
         "children": [
@@ -109,16 +112,19 @@
                     }
                 ]
             }
-        ]
+        ],
+        "attributes": {
+            "href": "./movies/"
+        }
     },
     {
-        "element": "button",
+        "element": "a",
         "name": "tvSeriesButton",
-        "style": "display: flex; fill: cwrapProperty[tv-seriesRoute=#5A698F]; transition: 300ms;",
+        "style": "display: flex; fill: {{return cwrapRoute==='tv-series'?'white':'#5A698F'}}; transition: 300ms;",
         "extend": [
             {
                 "extension": ":hover",
-                "style": "fill: cwrapProperty[tv-seriesRoute=#FC4747];"
+                "style": "fill: {{return cwrapRoute==='tv-series'?'white':'#FC4747'}};"
             }
         ],
         "children": [
@@ -138,16 +144,19 @@
                     }
                 ]
             }
-        ]
+        ],
+        "attributes": {
+            "href": "./tv-series/"
+        }
     },
     {
-        "element": "button",
+        "element": "a",
         "name": "bookmarkButton",
-        "style": "display: flex; fill: cwrapProperty[bookmarkedRoute=#5A698F]; transition: 300ms;",
+        "style": "display: flex; fill: {{return cwrapRoute==='bookmarked'?'white':'#5A698F'}}; transition: 300ms;",
         "extend": [
             {
                 "extension": ":hover",
-                "style": "fill: cwrapProperty[bookmarkedRoute=#FC4747];"
+                "style": "fill: {{return cwrapRoute==='bookmarked'?'white':'#FC4747'}};"
             }
         ],
         "children": [
@@ -167,6 +176,23 @@
                     }
                 ]
             }
-        ]
+        ],
+        "attributes": {
+            "href": "./bookmarked/"
+        }
+    },
+    {
+        "name": "projectRoute",
+        "head": {
+            "link": [
+                {
+                    "rel": "shortcut icon",
+                    "href": "favicon.ico",
+                    "type": "image/x-icon"
+                }
+            ]
+        },
+        "element": "cwrap-template",
+        "text": "cwrapTemplate[body({{return `${cwrapRoute}Route=white`}})]"
     }
 ]

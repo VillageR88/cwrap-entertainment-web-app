@@ -48,9 +48,9 @@
       "style": "box-sizing: border-box; margin: 0; padding: 0;"
     },
     {
-      "name": "button",
+      "name": "a",
       "type": "element",
-      "style": "background-color: unset; border: unset; cursor: pointer; padding: 0;"
+      "style": "cursor: pointer;"
     },
     {
       "name": "h1",
