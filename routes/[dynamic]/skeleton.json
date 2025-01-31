@@ -1,0 +1,10 @@
+{
+  "routes": [
+    "/",
+    "movies/",
+    "tv-series/",
+    "bookmarked/"
+  ],
+  "element": "cwrap-template",
+  "text": "cwrapTemplate[projectRoute]"
+}
