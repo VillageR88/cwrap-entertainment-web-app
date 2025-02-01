@@ -7,8 +7,11 @@ const { document } = new JSDOM().window;
 const constMap = new Map();
 const cssMap = new Map();
 const mediaQueriesMap = new Map();
-const { notNthEnumerableElements } = require("./cwrapConfig");
-const { cwrapReference } = require("./cwrapConfig");
+const {
+  notNthEnumerableElements,
+  cwrapReference,
+  buildConfig,
+} = require("./cwrapConfig");
 const templatesApiUrl = path.join(__dirname, "routes", "templates.json");
 const templatesMap = new Map();
 const globalsJsonPath = path.join(__dirname, "routes", "globals.json");
@@ -575,6 +578,8 @@ function processStaticRouteDirectory(
   index,
   dynamicallyInvokedRoute
 ) {
+  if (buildConfig.convertDynamicBuildToStatic) {
+  }
   const cwrapRoute = path.relative(path.join(__dirname, "routes"), routeDir);
   const jsonFile = path.join(routeDir, "skeleton.json");
   if (!fs.existsSync(jsonFile)) {

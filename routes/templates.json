@@ -83,6 +83,13 @@
                         ]
                     }
                 ]
+            },
+            {
+                "element": "script",
+                "attributes": {
+                    "type": "module",
+                    "src": "{{return cwrapRoute.length > 0 ? '.' : ''}}./static/scripts/main.js"
+                }
             }
         ]
     },

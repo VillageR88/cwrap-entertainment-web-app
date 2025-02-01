@@ -31,7 +31,7 @@ module.exports = {
     path: bundleDir, // Output in the scripts directory
   },
   resolve: {
-    extensions: [".js"],
+    extensions: [".js", ".json"],
   },
   mode: isDevelopment ? "development" : "production",
 };

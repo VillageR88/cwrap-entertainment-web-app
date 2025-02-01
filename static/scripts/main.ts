@@ -1,4 +1,5 @@
-import dataJson from "../data.json";
+import dataJson from "../data.json" with { type: "json" };
+
 type DataJSON = {
 	title: string;
 	thumbnail: {
@@ -22,3 +23,5 @@ type DataJSON = {
 const data = JSON.parse(
 	JSON.stringify(dataJson).replace(/assets/g, "images"),
 ) as DataJSON[];
+
+console.log("hello");

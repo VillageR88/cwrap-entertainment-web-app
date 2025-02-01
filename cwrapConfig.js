@@ -26,4 +26,8 @@ const notNthEnumerableElements = [
   "html",
 ];
 
-module.exports = { notNthEnumerableElements, cwrapReference };
+const buildConfig = {
+  convertDynamicBuildToStatic: true,
+};
+
+module.exports = { notNthEnumerableElements, cwrapReference, buildConfig };
