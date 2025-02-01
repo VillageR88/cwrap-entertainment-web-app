@@ -578,7 +578,6 @@ function processStaticRouteDirectory(
   const cwrapRoute = path.relative(path.join(__dirname, "routes"), routeDir);
   const jsonFile = path.join(routeDir, "skeleton.json");
   if (!fs.existsSync(jsonFile)) {
-    console.warn(`Could not open ${jsonFile} file, proceeding dynamic search.`);
     return;
   }
   let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
@@ -863,7 +862,6 @@ ${headContent}
       globalsCssContent += "}\n";
     }
 
-    console.log("buildDir,", buildDir);
     const globalsCssFile = path.join(buildDir, "globals.css");
     fs.writeFileSync(globalsCssFile, globalsCssContent, "utf8");
     if (!isDevelopment)

@@ -4,12 +4,7 @@
     "link": [
       {
         "rel": "stylesheet",
-        "href": "https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap",
-        "type": "text/css"
-      },
-      {
-        "rel": "stylesheet",
-        "href": "https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap",
+        "href": "https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap",
         "type": "text/css"
       }
     ],
@@ -33,6 +28,11 @@
   },
   "classroom": [
     {
+      "name": "placeholder",
+      "type": "pseudo::",
+      "style": "color: rgba(255,255,255,0.49.79);"
+    },
+    {
       "name": "@view-transition",
       "type": "custom",
       "style": "navigation: auto;"
@@ -51,28 +51,20 @@
       "name": "a",
       "type": "element",
       "style": "cursor: pointer;"
-    },
-    {
-      "name": "h1",
-      "type": "element",
-      "mediaQueries": [
-        {
-          "query": "max-width: 640px",
-          "style": "font-size: 32px; line-height: 38px;"
-        }
-      ],
-      "style": "font-family: Rajdhani, serif; font-size: 48px; font-weight: 700; letter-spacing: 10px; line-height: 48px; margin: 0; text-align: center; white-space: pre-wrap;"
     }
   ],
   "const": {
-    "features": [
-      "Automatic CSS generation",
-      "Autocompletion",
-      "Built-in linting",
-      "Preview-based",
-      "Dynamic routing",
-      "Template building",
-      "Global variables"
-    ]
+    "": {
+      "placeholder": "Search for movies or TV series"
+    },
+    "movies": {
+      "placeholder": "Search for movies"
+    },
+    "tv-series": {
+      "placeholder": "Search for TV series"
+    },
+    "bookmarked": {
+      "placeholder": "Search for bookmarked shows"
+    }
   }
 }
