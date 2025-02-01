@@ -1,6 +1,6 @@
 [
     {
-        "context": "{{console.log(cwrapRoute); return '';}}"
+        "context": "{{return '';}}"
     },
     {
         "element": "body",
