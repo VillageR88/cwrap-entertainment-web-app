@@ -28,14 +28,19 @@
   },
   "classroom": [
     {
+      "name": "@view-transition",
+      "type": "custom",
+      "style": "navigation: auto;"
+    },
+    {
       "name": "placeholder",
       "type": "pseudo::",
       "style": "color: rgba(255,255,255,0.49.79);"
     },
     {
-      "name": "@view-transition",
-      "type": "custom",
-      "style": "navigation: auto;"
+      "name": "html",
+      "type": "element",
+      "style": "scrollbar-color: #5A698F #10141E;"
     },
     {
       "name": "ul",
