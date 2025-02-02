@@ -87,6 +87,8 @@
             {
                 "element": "script",
                 "attributes": {
+                    "id": "main-script",
+                    "data-param": "{{return cwrapRoute}}",
                     "type": "module",
                     "src": "{{return cwrapRoute.length > 0 ? '.' : ''}}./static/scripts/main.js"
                 }

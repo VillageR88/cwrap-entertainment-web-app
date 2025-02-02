@@ -18,9 +18,15 @@ type DataJSON = {
 	isTrending: boolean;
 };
 const main = document.querySelector("main") as HTMLElement;
+const mainScript = document.getElementById("main-script") as HTMLScriptElement;
+const routeParam = mainScript.dataset.param as string;
 
 async function fetchData(): Promise<DataJSON[]> {
-	const response = await fetch("./static/data.json");
+	console.log("Passed param:", mainScript.dataset.param);
+
+	const response = await fetch(
+		`${routeParam?.length > 0 ? ".." : "."}/static/data.json`,
+	);
 	if (!response.ok) {
 		throw new Error(
 			`Failed to fetch data: ${response.status} ${response.statusText}`,
@@ -29,7 +35,10 @@ async function fetchData(): Promise<DataJSON[]> {
 
 	const dataJson = await response.json();
 	const transformedData = JSON.parse(
-		JSON.stringify(dataJson).replace(/.assets/g, "/static/images"),
+		JSON.stringify(dataJson).replace(
+			/.assets/g,
+			`${routeParam?.length > 0 ? "." : ""}/static/images`,
+		),
 	) as DataJSON[];
 
 	return transformedData;
