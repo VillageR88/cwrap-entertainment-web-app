@@ -56,6 +56,21 @@
       "name": "a",
       "type": "element",
       "style": "cursor: pointer;"
+    },
+    {
+      "name": "recommended-ul",
+      "type": "class",
+      "style": "display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); width: 100%;"
+    },
+    {
+      "name": "recommended-ul > li",
+      "type": "class",
+      "style": "align-items: center; display: flex; justify-content: center; width: 100%;"
+    },
+    {
+      "name": "recommended-ul > li > img",
+      "type": "class",
+      "style": "display: flex; width: 100%;"
     }
   ],
   "const": {

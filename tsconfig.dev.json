@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "target": "ES6",
-        "module": "ESNext",
-        "moduleResolution": "bundler",
+        "module": "ES6",
+        "moduleResolution": "node",
         "outDir": "./dist/static/scripts",
         "rootDir": "./static/scripts",
         "strict": true
