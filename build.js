@@ -19,8 +19,48 @@ const activeParam = process?.argv?.slice(2);
 const isDevelopment = activeParam.includes("dev");
 const cwrapContext = new Map();
 function runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext) {
-  const traverseAndExecute = (obj) => {
+  // We'll use a reserved key to mark values that should be merged.
+  const MERGE_KEY = "__merge__";
+
+  // Helper to check for our merge marker.
+  function isMergeMarker(value) {
+    return (
+      typeof value === "object" &&
+      value !== null &&
+      Object.prototype.hasOwnProperty.call(value, MERGE_KEY)
+    );
+  }
+
+  // The recursive transformer.
+  function traverseAndExecute(obj) {
     if (typeof obj === "string") {
+      // Check for triple-brace syntax that must match the entire string.
+      const tripleMatch = obj.match(/^\{\{\{([\s\S]*?)\}\}\}$/);
+      if (tripleMatch) {
+        try {
+          const scriptContent = tripleMatch[1];
+          const func = new Function(
+            "cwrapReference",
+            "cwrapRoute",
+            "cwrapContext",
+            // We wrap the script in an IIFE to allow local scoping.
+            `return (function() { ${scriptContent} })();`
+          );
+          const scriptResult = func(cwrapReference, cwrapRoute, cwrapContext);
+          // Expecting an object; if not, throw an error.
+          if (typeof scriptResult !== "object" || scriptResult === null) {
+            throw new Error("Triple brace script must return an object.");
+          }
+          // Instead of mutating the parent, return a merge marker.
+          return { [MERGE_KEY]: scriptResult };
+        } catch (error) {
+          console.error("Error executing triple-brace script:", error, obj);
+          return obj;
+        }
+      }
+
+      // Handle inline double-brace expressions.
+      // We'll use the global matchAll with a RegExp to catch all occurrences.
       const scriptMatches = [...obj.matchAll(/{{(.*?)}}/g)];
       let result = obj;
       for (const match of scriptMatches) {
@@ -30,29 +70,47 @@ function runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext) {
             "cwrapReference",
             "cwrapRoute",
             "cwrapContext",
-            `return (function() { ${scriptContent} })()`
+            `return (function() { ${scriptContent} })();`
           );
-          const scriptResult = func(cwrapReference, cwrapRoute, cwrapContext); // Execute the script with cwrapReference and cwrapRoute
+          const scriptResult = func(cwrapReference, cwrapRoute, cwrapContext);
+          // Replace the entire matched placeholder with the script result.
+          // Note: Using a string replace here assumes that the scriptResult converts properly to a string.
           result = result.replace(`{{${scriptContent}}}`, scriptResult);
         } catch (error) {
-          console.error("Error executing script:", error, obj);
+          console.error("Error executing inline script:", error, obj);
           return obj;
         }
       }
       return result;
     }
+
     if (Array.isArray(obj)) {
-      return obj.map(traverseAndExecute);
+      // Recursively process each item in the array.
+      return obj.map((item) => traverseAndExecute(item));
     }
+
     if (typeof obj === "object" && obj !== null) {
+      // Process objects in a way that allows merge markers to be incorporated.
       const newObj = {};
       for (const key in obj) {
-        newObj[key] = traverseAndExecute(obj[key]);
+        // Skip properties from the prototype chain.
+        if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
+        const transformedValue = traverseAndExecute(obj[key]);
+        if (isMergeMarker(transformedValue)) {
+          // If the transformed value is a merge marker,
+          // merge its keys into the current object.
+          Object.assign(newObj, transformedValue[MERGE_KEY]);
+        } else {
+          // Otherwise, add the transformed value to the result.
+          newObj[key] = transformedValue;
+        }
       }
       return newObj;
     }
+
+    // For any other type (number, boolean, etc.), return it as is.
     return obj;
-  };
+  }
 
   return traverseAndExecute(jsonObj);
 }
@@ -482,7 +540,7 @@ function copyFaviconToRoot(buildDir) {
   }
 }
 
-function generateHeadHtml(head, jsonFile) {
+function generateHeadHtml(head, jsonFile, dynamicallyInvokedRoute) {
   let headHtml = "<head>\n";
   const prefix = process.env.PAGE_URL;
   if (prefix) {
@@ -527,7 +585,9 @@ function generateHeadHtml(head, jsonFile) {
 
   // Calculate the depth based on the JSON file's path relative to the routes folder
   const relativePath = path.relative(path.join(__dirname, "routes"), jsonFile);
-  const depth = relativePath.split(/[\\/]/).length - 1;
+  const depth = dynamicallyInvokedRoute
+    ? dynamicallyInvokedRoute.split("/").length - 1
+    : relativePath.split(/[\\/]/).length - 1;
   const globalsCssPath = `${"../".repeat(depth)}globals.css`;
   headHtml += `    <link rel="stylesheet" href="${globalsCssPath}">\n`;
 
@@ -544,8 +604,13 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
   }
   const jsonFilePath = path.join(routeDir, "skeleton.json");
   if (fs.existsSync(jsonFilePath)) {
-    const jsonContent = fs.readFileSync(jsonFilePath, "utf8");
-    const jsonObj = JSON.parse(jsonContent);
+    const jsonContent = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
+    const jsonObj = runEmbeddedScripts(
+      jsonContent,
+      cwrapReference,
+      undefined,
+      cwrapContext
+    );
     if (jsonObj.routes) {
       for (const [index, routeObj] of jsonObj.routes.entries()) {
         let route;
@@ -557,6 +622,7 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
           parentRoute = routeObj.parent;
         }
         const routePath = path.join(routeDir);
+
         const buildPath = parentRoute
           ? path.join(
               buildDir,
@@ -566,6 +632,7 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
               route.toString()
             )
           : path.join(buildDir, "..", route.toString());
+
         processStaticRouteDirectory(routePath, buildPath, index, route);
       }
     }
@@ -578,18 +645,23 @@ function processStaticRouteDirectory(
   index,
   dynamicallyInvokedRoute
 ) {
-  if (buildConfig.convertDynamicBuildToStatic) {
-  }
   const cwrapRoute = path.relative(path.join(__dirname, "routes"), routeDir);
+  if (
+    buildConfig.deleteDynamicRoutesAfterStaticConversion &&
+    !dynamicallyInvokedRoute &&
+    cwrapRoute.includes("[" || cwrapRoute.includes("]"))
+  ) {
+    return;
+  }
   const jsonFile = path.join(routeDir, "skeleton.json");
   if (!fs.existsSync(jsonFile)) {
     return;
   }
-  let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
-  jsonObj = runEmbeddedScripts(
-    jsonObj,
+  const jsonContent = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
+  let jsonObj = runEmbeddedScripts(
+    jsonContent,
     cwrapReference,
-    cwrapRoute,
+    dynamicallyInvokedRoute ? dynamicallyInvokedRoute : cwrapRoute,
     cwrapContext
   ); // Process embedded scripts
 
@@ -625,7 +697,7 @@ function processStaticRouteDirectory(
       return matches;
     };
 
-    const jsonString = JSON.stringify(jsonObj);
+    jsonString = JSON.stringify(jsonObj);
     const arrayMatches = findCwrapRouteMatches(jsonString, "cwrapRoutes");
     let replacedString = jsonString;
 
@@ -662,7 +734,7 @@ function processStaticRouteDirectory(
       mergedHead[key] = [...globalsHead[key], ...jsonObj.head[key]];
     }
   }
-  headContent = generateHeadHtml(mergedHead, jsonFile);
+  headContent = generateHeadHtml(mergedHead, jsonFile, dynamicallyInvokedRoute);
 
   const bodyContent = generateHtml(replaceCwrapGlobals(jsonObj), jsonFile);
   let bodyHtml = bodyContent.outerHTML;

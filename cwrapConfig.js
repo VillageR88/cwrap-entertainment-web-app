@@ -27,7 +27,7 @@ const notNthEnumerableElements = [
 ];
 
 const buildConfig = {
-  convertDynamicBuildToStatic: true,
+  deleteDynamicRoutesAfterStaticConversion: true,
 };
 
 module.exports = { notNthEnumerableElements, cwrapReference, buildConfig };
