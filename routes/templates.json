@@ -130,6 +130,7 @@
             }
         ],
         "attributes": {
+            "description": "Navigate to the homepage",
             "title": "homepage",
             "href": "{{return cwrapRoute.length > 0 ? '.' : ''}}./"
         }
@@ -163,6 +164,7 @@
             }
         ],
         "attributes": {
+            "description": "Navigate to the movies page",
             "title": "movies",
             "href": "{{return cwrapRoute.length > 0 ? '.' : ''}}./movies/"
         }
@@ -196,6 +198,7 @@
             }
         ],
         "attributes": {
+            "description": "Navigate to the TV series page",
             "title": "tv-series",
             "href": "{{return cwrapRoute.length > 0 ? '.' : ''}}./tv-series/"
         }
@@ -229,6 +232,7 @@
             }
         ],
         "attributes": {
+            "description": "Navigate to the bookmarked page",
             "title": "bookmarked",
             "href": "{{return cwrapRoute.length > 0 ? '.' : ''}}./bookmarked/"
         }
