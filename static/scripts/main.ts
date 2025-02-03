@@ -104,24 +104,6 @@ function fillMain(data: DataJSON[]) {
 		} else {
 			showInfoInnerDivType.innerHTML = seriesType;
 		}
-		listItem.appendChild(image);
-		listItem.appendChild(bookmarkButton);
-		showInfoInnerDiv.appendChild(showInfoInnerDivYear);
-		showInfoInnerDiv.appendChild(separator.cloneNode(true));
-		showInfoInnerDivType.appendChild(movieTypeDescription);
-		showInfoInnerDiv.appendChild(showInfoInnerDivType);
-		showInfoInnerDiv.appendChild(separator.cloneNode(true));
-		showInfoInnerDiv.appendChild(movieRating);
-
-		movieInfo.appendChild(showInfoInnerDiv);
-		movieInfo.appendChild(movieTitle);
-		listItem.appendChild(movieInfo);
-		if (element.isTrending) {
-			listItem.classList.add("embla__slide");
-			trendingList.appendChild(listItem);
-		} else {
-			recommendedList.appendChild(listItem);
-		}
 		if (routeParam === "") {
 			trendingListTitle.textContent = "Trending";
 			trendingListContainer.id = "div-trending-title-ul";
@@ -133,22 +115,38 @@ function fillMain(data: DataJSON[]) {
 			main.appendChild(trendingListContainer);
 			const options: EmblaOptionsType = { loop: false, dragFree: true };
 			EmblaCarousel(trendingListInnerContainer, options) as EmblaCarouselType;
+			if (element.isTrending) {
+				listItem.classList.add("embla__slide");
+				trendingList.appendChild(listItem);
+			}
 		}
-
-		recommendedListContainer.id = "div-recommended-title-ul";
-		recommendedListContainer.className = "div-recommended";
-		switch (routeParam) {
-			case "movies":
-				recommendedListTitle.textContent = "Movies";
-				break;
-			case "tv-series":
-				recommendedListTitle.textContent = "TV Series";
-				break;
-			default:
-				recommendedListTitle.textContent = "Recommended for you";
+		if (routeParam !== "bookmarked") {
+			listItem.appendChild(image);
+			listItem.appendChild(bookmarkButton);
+			showInfoInnerDiv.appendChild(showInfoInnerDivYear);
+			showInfoInnerDiv.appendChild(separator.cloneNode(true));
+			showInfoInnerDivType.appendChild(movieTypeDescription);
+			showInfoInnerDiv.appendChild(showInfoInnerDivType);
+			showInfoInnerDiv.appendChild(separator.cloneNode(true));
+			showInfoInnerDiv.appendChild(movieRating);
+			movieInfo.appendChild(showInfoInnerDiv);
+			movieInfo.appendChild(movieTitle);
+			listItem.appendChild(movieInfo);
+			recommendedListContainer.id = "div-recommended-title-ul";
+			recommendedListContainer.className = "div-recommended";
+			switch (routeParam) {
+				case "movies":
+					recommendedListTitle.textContent = "Movies";
+					break;
+				case "tv-series":
+					recommendedListTitle.textContent = "TV Series";
+			}
+			recommendedListContainer.appendChild(recommendedListTitle);
+			recommendedListContainer.appendChild(recommendedList);
+			main.appendChild(recommendedListContainer);
+			if (!element.isTrending) {
+				recommendedList.appendChild(listItem);
+			}
 		}
-		recommendedListContainer.appendChild(recommendedListTitle);
-		recommendedListContainer.appendChild(recommendedList);
-		main.appendChild(recommendedListContainer);
 	}
 }
