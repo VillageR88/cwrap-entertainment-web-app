@@ -74,7 +74,7 @@
                             },
                             {
                                 "element": "input",
-                                "style": "background-color: unset; border: unset; width: 100%; font-size: 1.5rem; font-weight: 300; color: white; outline: none; border-bottom: 1px solid transparent; height: 47px; transition: 300ms; caret-color: #FC4747;",
+                                "style": "background-color: unset; border: unset; width: 100%; font-size: 1.5rem; font-weight: 100; color: white; outline: none; border-bottom: 1px solid transparent; height: 47px; transition: 300ms; caret-color: #FC4747;",
                                 "extend": [
                                     {
                                         "extension": ":focus",
