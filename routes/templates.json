@@ -45,10 +45,10 @@
                     },
                     {
                         "element": "img",
-                        "style": "border: 1px solid white; border-radius: 50%; margin-top: auto;",
+                        "style": "border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 50%; margin-top: auto; object-fit: cover; object-position: left 10px; object-position: center center; background: linear-gradient(to bottom, rgba(0, 198, 255, 0.5), rgba(0, 114, 255, 0.5));",
                         "attributes": {
                             "alt": "User Avatar",
-                            "src": "{{return cwrapRoute.length > 0 ? '.' : ''}}./static/images/image-avatar.png",
+                            "src": "{{return cwrapRoute.length > 0 ? '.' : ''}}./static/images/image-avatar-beautiful.webp",
                             "height": "40",
                             "width": "40"
                         }
@@ -130,6 +130,7 @@
             }
         ],
         "attributes": {
+            "description": "Navigate to the homepage",
             "title": "homepage",
             "href": "{{return cwrapRoute.length > 0 ? '.' : ''}}./"
         }
@@ -163,6 +164,7 @@
             }
         ],
         "attributes": {
+            "description": "Navigate to the movies page",
             "title": "movies",
             "href": "{{return cwrapRoute.length > 0 ? '.' : ''}}./movies/"
         }
@@ -196,6 +198,7 @@
             }
         ],
         "attributes": {
+            "description": "Navigate to the TV series page",
             "title": "tv-series",
             "href": "{{return cwrapRoute.length > 0 ? '.' : ''}}./tv-series/"
         }
@@ -229,6 +232,7 @@
             }
         ],
         "attributes": {
+            "description": "Navigate to the bookmarked page",
             "title": "bookmarked",
             "href": "{{return cwrapRoute.length > 0 ? '.' : ''}}./bookmarked/"
         }
