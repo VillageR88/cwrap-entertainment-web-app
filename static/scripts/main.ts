@@ -1,3 +1,5 @@
+import EmblaCarousel from "embla-carousel";
+import type { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
 type DataJSON = {
 	title: string;
 	thumbnail: {
@@ -22,8 +24,6 @@ const mainScript = document.getElementById("main-script") as HTMLScriptElement;
 const routeParam = mainScript.dataset.param as string;
 
 async function fetchData(): Promise<DataJSON[]> {
-	console.log("Passed param:", mainScript.dataset.param);
-
 	const response = await fetch(
 		`${routeParam?.length > 0 ? ".." : "."}/static/data.json`,
 	);
@@ -53,20 +53,44 @@ fetchData()
 	});
 
 function fillMain(data: DataJSON[]) {
+	const trendingListContainer = document.createElement("div");
+	const trendingListInnerContainer = document.createElement("div");
+	const trendingListTitle = document.createElement("h2");
+	const trendingList = document.createElement("ul");
 	const recommendedListContainer = document.createElement("div");
 	const recommendedListTitle = document.createElement("h2");
 	const recommendedList = document.createElement("ul");
-	recommendedListContainer.id = "div-title-recommended-ul";
-	recommendedListTitle.textContent = "Recommended for you";
+
 	for (const element of data) {
-		console.log(element.thumbnail.regular.large);
-		const listItem = document.createElement("li");
-		const image = document.createElement("img");
-		image.src = element.thumbnail.regular.large;
-		listItem.appendChild(image);
-		recommendedList.appendChild(listItem);
+		if (element.isTrending) {
+			const listItem = document.createElement("li");
+			const image = document.createElement("img");
+			listItem.classList.add("embla__slide");
+			image.src = element.thumbnail.regular.large;
+			listItem.appendChild(image);
+			trendingList.appendChild(listItem);
+		} else {
+			const listItem = document.createElement("li");
+			const image = document.createElement("img");
+			image.src = element.thumbnail.regular.large;
+			listItem.appendChild(image);
+			recommendedList.appendChild(listItem);
+		}
+		trendingListTitle.textContent = "Trending";
+		trendingListContainer.id = "div-trending-title-ul";
+		trendingListInnerContainer.classList.add("embla");
+		trendingList.classList.add("embla__container");
+		recommendedListContainer.id = "div-recommended-title-ul";
+		recommendedListTitle.textContent = "Recommended for you";
+		trendingListContainer.appendChild(trendingListInnerContainer);
+
+		trendingListContainer.appendChild(trendingListTitle);
+		trendingListInnerContainer.appendChild(trendingList);
+		recommendedListContainer.appendChild(recommendedListTitle);
+		recommendedListContainer.appendChild(recommendedList);
+		main.appendChild(trendingListContainer);
+		main.appendChild(recommendedListContainer);
+		const options: EmblaOptionsType = { loop: false, dragFree: true };
+		EmblaCarousel(trendingListInnerContainer, options) as EmblaCarouselType;
 	}
-	recommendedListContainer.appendChild(recommendedListTitle);
-	recommendedListContainer.appendChild(recommendedList);
-	main.appendChild(recommendedListContainer);
 }
