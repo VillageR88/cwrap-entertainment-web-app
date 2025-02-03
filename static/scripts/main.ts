@@ -77,7 +77,10 @@ function fillMain(data: DataJSON[]) {
 		const svgBookmarkedIcon = bookmarkButton.querySelector(
 			"svg:nth-of-type(2)",
 		) as HTMLElement;
-
+		const listItem = document.createElement("li");
+		const image = document.createElement("img");
+		const movieInfo = document.createElement("div");
+		movieInfo.innerHTML = "XYZ";
 		if (bookmarkedList[element.title] === true) {
 			svgBookmarkIcon.style.opacity = "0";
 			svgBookmarkedIcon.style.opacity = "1";
@@ -85,7 +88,6 @@ function fillMain(data: DataJSON[]) {
 			svgBookmarkIcon.style.opacity = "1";
 			svgBookmarkedIcon.style.opacity = "0";
 		}
-
 		bookmarkButton.addEventListener("click", () => {
 			if (bookmarkedList[element.title] === true) {
 				bookmarkedList[element.title] = false;
@@ -101,12 +103,11 @@ function fillMain(data: DataJSON[]) {
 				JSON.stringify(bookmarkedList),
 			);
 		});
-		const listItem = document.createElement("li");
-		const image = document.createElement("img");
 		image.src = element.thumbnail.regular.large;
 		image.alt = element.title;
 		listItem.appendChild(image);
 		listItem.appendChild(bookmarkButton);
+		listItem.appendChild(movieInfo);
 		if (element.isTrending) {
 			listItem.classList.add("embla__slide");
 			trendingList.appendChild(listItem);
