@@ -4,8 +4,6 @@ import type { DataJSON, RouteParam } from "./types";
 const main = document.querySelector("main") as HTMLElement;
 const mainScript = document.getElementById("main-script") as HTMLScriptElement;
 const routeParam = mainScript.dataset.param as RouteParam;
-console.log(routeParam);
-
 async function fetchData(): Promise<DataJSON[]> {
 	const response = await fetch(
 		`${routeParam?.length > 0 ? ".." : "."}/static/data.json`,
@@ -124,20 +122,33 @@ function fillMain(data: DataJSON[]) {
 		} else {
 			recommendedList.appendChild(listItem);
 		}
-		trendingListTitle.textContent = "Trending";
-		trendingListContainer.id = "div-trending-title-ul";
-		trendingListInnerContainer.classList.add("embla");
-		trendingList.classList.add("embla__container");
+		if (routeParam === "") {
+			trendingListTitle.textContent = "Trending";
+			trendingListContainer.id = "div-trending-title-ul";
+			trendingListInnerContainer.classList.add("embla");
+			trendingList.classList.add("embla__container");
+			trendingListContainer.appendChild(trendingListInnerContainer);
+			trendingListContainer.appendChild(trendingListTitle);
+			trendingListInnerContainer.appendChild(trendingList);
+			main.appendChild(trendingListContainer);
+			const options: EmblaOptionsType = { loop: false, dragFree: true };
+			EmblaCarousel(trendingListInnerContainer, options) as EmblaCarouselType;
+		}
+
 		recommendedListContainer.id = "div-recommended-title-ul";
-		recommendedListTitle.textContent = "Recommended for you";
-		trendingListContainer.appendChild(trendingListInnerContainer);
-		trendingListContainer.appendChild(trendingListTitle);
-		trendingListInnerContainer.appendChild(trendingList);
+		recommendedListContainer.className = "div-recommended";
+		switch (routeParam) {
+			case "movies":
+				recommendedListTitle.textContent = "Movies";
+				break;
+			case "tv-series":
+				recommendedListTitle.textContent = "TV Series";
+				break;
+			default:
+				recommendedListTitle.textContent = "Recommended for you";
+		}
 		recommendedListContainer.appendChild(recommendedListTitle);
 		recommendedListContainer.appendChild(recommendedList);
-		main.appendChild(trendingListContainer);
 		main.appendChild(recommendedListContainer);
-		const options: EmblaOptionsType = { loop: false, dragFree: true };
-		EmblaCarousel(trendingListInnerContainer, options) as EmblaCarouselType;
 	}
 }
