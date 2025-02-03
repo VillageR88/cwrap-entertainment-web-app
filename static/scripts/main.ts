@@ -1,27 +1,10 @@
 import EmblaCarousel from "embla-carousel";
 import type { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
-type DataJSON = {
-	title: string;
-	thumbnail: {
-		trending: {
-			small: string;
-			large: string;
-		};
-		regular: {
-			small: string;
-			medium: string;
-			large: string;
-		};
-	};
-	year: number;
-	category: string;
-	rating: string;
-	isBookmarked: boolean;
-	isTrending: boolean;
-};
+import type { DataJSON, RouteParam } from "./types";
 const main = document.querySelector("main") as HTMLElement;
 const mainScript = document.getElementById("main-script") as HTMLScriptElement;
-const routeParam = mainScript.dataset.param as string;
+const routeParam = mainScript.dataset.param as RouteParam;
+console.log(routeParam);
 
 async function fetchData(): Promise<DataJSON[]> {
 	const response = await fetch(
@@ -125,7 +108,6 @@ function fillMain(data: DataJSON[]) {
 		}
 		listItem.appendChild(image);
 		listItem.appendChild(bookmarkButton);
-		console.log(element);
 		showInfoInnerDiv.appendChild(showInfoInnerDivYear);
 		showInfoInnerDiv.appendChild(separator.cloneNode(true));
 		showInfoInnerDivType.appendChild(movieTypeDescription);
