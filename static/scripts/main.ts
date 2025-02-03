@@ -53,8 +53,11 @@ fetchData()
 	});
 
 function fillMain(data: DataJSON[]) {
+	const recommendedListContainer = document.createElement("div");
+	const recommendedListTitle = document.createElement("h2");
 	const recommendedList = document.createElement("ul");
-	recommendedList.classList.add("recommended-ul");
+	recommendedListContainer.id = "div-title-recommended-ul";
+	recommendedListTitle.textContent = "Recommended for you";
 	for (const element of data) {
 		console.log(element.thumbnail.regular.large);
 		const listItem = document.createElement("li");
@@ -63,5 +66,7 @@ function fillMain(data: DataJSON[]) {
 		listItem.appendChild(image);
 		recommendedList.appendChild(listItem);
 	}
-	main.appendChild(recommendedList);
+	recommendedListContainer.appendChild(recommendedListTitle);
+	recommendedListContainer.appendChild(recommendedList);
+	main.appendChild(recommendedListContainer);
 }

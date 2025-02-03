@@ -57,7 +57,7 @@
             },
             {
                 "element": "main",
-                "style": "width: 100%; height: 100%; display: flex; flex-direction: column; padding-top: 2em; padding-left: 8.25em",
+                "style": "width: 100%; height: 100%; display: flex; flex-direction: column; padding-top: 2em; padding-left: 8.25em; gap: 40px;",
                 "children": [
                     {
                         "element": "label",
@@ -74,7 +74,13 @@
                             },
                             {
                                 "element": "input",
-                                "style": "background-color: unset; border: unset; width: 100%; font-size: 1.5rem; font-weight: 300; color: white; outline: none; border-bottom: 1px solid #5A698F; height: 47px;",
+                                "style": "background-color: unset; border: unset; width: 100%; font-size: 1.5rem; font-weight: 300; color: white; outline: none; border-bottom: 1px solid transparent; height: 47px; transition: 300ms; caret-color: #FC4747;",
+                                "extend": [
+                                    {
+                                        "extension": ":focus",
+                                        "style": "border-bottom-color: #5A698F;"
+                                    }
+                                ],
                                 "attributes": {
                                     "id": "search-input",
                                     "placeholder": "cwrapGlobal[{{return cwrapRoute;}}.placeholder]"

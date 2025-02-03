@@ -50,7 +50,7 @@
     {
       "name": "nav, li",
       "type": "element",
-      "style": "box-sizing: border-box; margin: 0; padding: 0;"
+      "style": "border-radius: 8px; box-sizing: border-box; margin: 0; padding: 0;"
     },
     {
       "name": "a",
@@ -58,19 +58,29 @@
       "style": "cursor: pointer;"
     },
     {
-      "name": "recommended-ul",
-      "type": "class",
-      "style": "display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); width: 100%;"
+      "name": "h2",
+      "type": "element",
+      "style": "color: white; font-size: 2rem; font-weight: 300; letter-spacing: -0.03125rem; margin: 0;"
     },
     {
-      "name": "recommended-ul > li",
-      "type": "class",
-      "style": "align-items: center; display: flex; justify-content: center; width: 100%;"
+      "name": "div-title-recommended-ul",
+      "type": "id",
+      "style": "display: flex; flex-direction: column; gap: 32px;"
     },
     {
-      "name": "recommended-ul > li > img",
-      "type": "class",
-      "style": "display: flex; width: 100%;"
+      "name": "div-title-recommended-ul > ul",
+      "type": "id",
+      "style": "display: grid; gap: 16px; gap: 32px 40px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); width: 100%;"
+    },
+    {
+      "name": "div-title-recommended-ul > ul > li",
+      "type": "id",
+      "style": "align-items: center; border-radius: 8px; display: flex; justify-content: center; width: 100%;"
+    },
+    {
+      "name": "div-title-recommended-ul > ul > li > img",
+      "type": "id",
+      "style": "border-radius: 8px; display: flex; width: 100%;"
     }
   ],
   "const": {
