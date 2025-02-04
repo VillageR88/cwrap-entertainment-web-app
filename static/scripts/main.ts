@@ -17,11 +17,13 @@ fetchData()
 		console.error("Error fetching data:", error);
 	});
 function fillMain(data: DataJSON[]) {
+	const search = document.getElementById("search-input") as HTMLInputElement;
 	const storage = window.localStorage.getItem("bookmarkedList");
 	let bookmarkedList: Record<string, boolean> = {};
 	if (storage) {
 		bookmarkedList = JSON.parse(storage);
 	}
+
 	const trendingListContainer = document.createElement("div");
 	const trendingListInnerContainer = document.createElement("div");
 	const trendingListTitle = document.createElement("h2");
@@ -123,4 +125,23 @@ function fillMain(data: DataJSON[]) {
 			main.appendChild(galleryListContainer);
 		}
 	}
+	const loadedGalleries = main.querySelectorAll(
+		"#div-trending-title-ul, .div-show-gallery",
+	);
+	if (search)
+		search.addEventListener("input", () => {
+			for (const item of loadedGalleries) {
+				const itemTitleList = item.querySelectorAll("h3");
+				for (const title of itemTitleList) {
+					if (title.textContent?.match(search.value)) {
+						const foundListItem = title.parentElement?.parentElement;
+					}
+				}
+				if (search.value !== "") {
+					(item as HTMLElement).style.display = "none";
+				} else {
+					(item as HTMLElement).style.removeProperty("display");
+				}
+			}
+		});
 }
