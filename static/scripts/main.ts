@@ -139,7 +139,11 @@ function fillMain(data: DataJSON[]) {
 					if (title.textContent?.toLowerCase()?.match(search.value)) {
 						const foundListItem = title.parentElement?.parentElement;
 						if (foundListItem) {
-							gallerySearchList.appendChild(foundListItem.cloneNode(true));
+							const clonedFoundListItem = foundListItem.cloneNode(
+								true,
+							) as HTMLUListElement;
+							clonedFoundListItem.classList.remove("embla__slide");
+							gallerySearchList.appendChild(clonedFoundListItem);
 							numberOfResults++;
 						}
 					}
