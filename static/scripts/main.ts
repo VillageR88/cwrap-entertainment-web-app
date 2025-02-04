@@ -23,9 +23,9 @@ function fillMain(data: DataJSON[]) {
 	const trendingListInnerContainer = document.createElement("div");
 	const trendingListTitle = document.createElement("h2");
 	const trendingList = document.createElement("ul");
-	const recommendedListContainer = document.createElement("div");
-	const recommendedListTitle = document.createElement("h2");
-	const recommendedList = document.createElement("ul");
+	const galleryListContainer = document.createElement("div");
+	const galleryListTitle = document.createElement("h2");
+	const galleryList = document.createElement("ul");
 
 	//start of loop
 	for (const element of data) {
@@ -53,15 +53,8 @@ function fillMain(data: DataJSON[]) {
 			showInfoInnerDivType.innerHTML = seriesType;
 		}
 		if (routeParam === "") {
-			trendingListTitle.textContent = "Trending";
-			trendingListContainer.id = "div-trending-title-ul";
-			trendingListInnerContainer.classList.add("embla");
-			trendingList.classList.add("embla__container");
-			trendingListContainer.appendChild(trendingListInnerContainer);
-			trendingListContainer.appendChild(trendingListTitle);
 			trendingListInnerContainer.appendChild(trendingList);
-			const options: EmblaOptionsType = { loop: false, dragFree: true };
-			EmblaCarousel(trendingListInnerContainer, options) as EmblaCarouselType;
+
 			if (element.isTrending) {
 				listItem.classList.add("embla__slide");
 				trendingList.appendChild(listItem);
@@ -79,23 +72,33 @@ function fillMain(data: DataJSON[]) {
 			movieInfo.appendChild(showInfoInnerDiv);
 			movieInfo.appendChild(movieTitle);
 			listItem.appendChild(movieInfo);
-			recommendedListContainer.appendChild(recommendedListTitle);
-			recommendedListContainer.appendChild(recommendedList);
 			if (!element.isTrending) {
-				recommendedList.appendChild(listItem);
+				galleryList.appendChild(listItem);
 			}
 		}
 	}
 	//end of loop
-	recommendedListContainer.id = "div-recommended-title-ul";
-	recommendedListContainer.className = "div-show-gallery";
+	trendingListTitle.textContent = "Trending";
+	trendingListContainer.id = "div-trending-title-ul";
+	trendingListInnerContainer.classList.add("embla");
+	trendingList.classList.add("embla__container");
+	trendingListContainer.appendChild(trendingListInnerContainer);
+	trendingListContainer.appendChild(trendingListTitle);
+
+	galleryListContainer.appendChild(galleryListTitle);
+	galleryListContainer.appendChild(galleryList);
+	galleryListContainer.className = "div-show-gallery";
 	switch (routeParam) {
 		case "movies":
-			recommendedListTitle.textContent = "Movies";
+			galleryListTitle.textContent = "Movies";
 			break;
 		case "tv-series":
-			recommendedListTitle.textContent = "TV Series";
+			galleryListTitle.textContent = "TV Series";
 	}
-	if (routeParam === "") main.appendChild(trendingListContainer);
-	main.appendChild(recommendedListContainer);
+	if (routeParam === "") {
+		const options: EmblaOptionsType = { loop: false, dragFree: true };
+		EmblaCarousel(trendingListInnerContainer, options) as EmblaCarouselType;
+		main.appendChild(trendingListContainer);
+	}
+	main.appendChild(galleryListContainer);
 }
