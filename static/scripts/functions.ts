@@ -62,14 +62,16 @@ async function fetchData(): Promise<DataJSON[]> {
 }
 
 const createGalleryListContainer = (
-	galleryList1: HTMLUListElement,
+	galleryList: HTMLUListElement,
 	title: string,
-) => {
+	alternateId?: string,
+): HTMLDivElement => {
 	const galleryListContainer = document.createElement("div");
 	const galleryListTitle = document.createElement("h2");
 	galleryListContainer.appendChild(galleryListTitle);
-	galleryListContainer.appendChild(galleryList1);
+	galleryListContainer.appendChild(galleryList);
 	galleryListContainer.className = "div-show-gallery";
+	if (alternateId) galleryListContainer.id = alternateId;
 	galleryListTitle.textContent = title;
 	return galleryListContainer;
 };

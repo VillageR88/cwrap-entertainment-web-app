@@ -128,13 +128,20 @@ function fillMain(data: DataJSON[]) {
 	const loadedGalleries = main.querySelectorAll(
 		"#div-trending-title-ul, .div-show-gallery",
 	);
-	if (search)
+	if (search) {
 		search.addEventListener("input", () => {
+			document.getElementById("search-result-container")?.remove();
+			let numberOfResults = 0;
+			const gallerySearchList = document.createElement("ul");
 			for (const item of loadedGalleries) {
 				const itemTitleList = item.querySelectorAll("h3");
 				for (const title of itemTitleList) {
-					if (title.textContent?.match(search.value)) {
+					if (title.textContent?.toLowerCase()?.match(search.value)) {
 						const foundListItem = title.parentElement?.parentElement;
+						if (foundListItem) {
+							gallerySearchList.appendChild(foundListItem.cloneNode(true));
+							numberOfResults++;
+						}
 					}
 				}
 				if (search.value !== "") {
@@ -143,5 +150,19 @@ function fillMain(data: DataJSON[]) {
 					(item as HTMLElement).style.removeProperty("display");
 				}
 			}
+			if (search.value !== "") {
+				const gallerySearchListTitle = `Found ${numberOfResults} results for ‘${search.value}’`;
+
+				const searchListContainer = createGalleryListContainer(
+					gallerySearchList,
+					gallerySearchListTitle,
+					"search-result-container",
+				);
+				main.insertBefore(
+					searchListContainer,
+					document.querySelector(".div-show-gallery"),
+				);
+			}
 		});
+	}
 }
