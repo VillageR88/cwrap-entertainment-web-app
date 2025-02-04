@@ -50,14 +50,6 @@ function fillMain(data: DataJSON[]) {
 
 	//start of loop
 	for (const element of data) {
-		const bookmarkButton = document.createElement("button");
-		bookmarkButton.innerHTML = `${svgBookmark}\n${svgBookmarked}`;
-		const svgBookmarkIcon = bookmarkButton.querySelector(
-			"svg:nth-of-type(1)",
-		) as HTMLElement;
-		const svgBookmarkedIcon = bookmarkButton.querySelector(
-			"svg:nth-of-type(2)",
-		) as HTMLElement;
 		const listItem = document.createElement("li");
 		const image = document.createElement("img");
 		const movieInfo = document.createElement("div");
@@ -71,28 +63,7 @@ function fillMain(data: DataJSON[]) {
 		movieTypeDescription.textContent = element.category;
 		movieRating.textContent = element.rating;
 		movieTitle.textContent = element.title;
-		if (bookmarkedList[element.title] === true) {
-			svgBookmarkIcon.style.opacity = "0";
-			svgBookmarkedIcon.style.opacity = "1";
-		} else {
-			svgBookmarkIcon.style.opacity = "1";
-			svgBookmarkedIcon.style.opacity = "0";
-		}
-		bookmarkButton.addEventListener("click", () => {
-			if (bookmarkedList[element.title] === true) {
-				bookmarkedList[element.title] = false;
-				svgBookmarkIcon.style.opacity = "1";
-				svgBookmarkedIcon.style.opacity = "0";
-			} else {
-				bookmarkedList[element.title] = true;
-				svgBookmarkIcon.style.opacity = "0";
-				svgBookmarkedIcon.style.opacity = "1";
-			}
-			window.localStorage.setItem(
-				"bookmarkedList",
-				JSON.stringify(bookmarkedList),
-			);
-		});
+
 		image.src = element.thumbnail.regular.large;
 		image.alt = element.title;
 		showInfoInnerDivYear.textContent = element.year.toString();
@@ -119,7 +90,7 @@ function fillMain(data: DataJSON[]) {
 		}
 		if (routeParam !== "bookmarked") {
 			listItem.appendChild(image);
-			listItem.appendChild(bookmarkButton);
+			listItem.appendChild(createBookmarkButton(bookmarkedList, element));
 			showInfoInnerDiv.appendChild(showInfoInnerDivYear);
 			showInfoInnerDiv.appendChild(separator.cloneNode(true));
 			showInfoInnerDivType.appendChild(movieTypeDescription);
@@ -146,6 +117,43 @@ function fillMain(data: DataJSON[]) {
 		case "tv-series":
 			recommendedListTitle.textContent = "TV Series";
 	}
-	main.appendChild(trendingListContainer);
+	if (routeParam === "") main.appendChild(trendingListContainer);
 	main.appendChild(recommendedListContainer);
 }
+
+const createBookmarkButton = (
+	bookmarkedList: Record<string, boolean>,
+	element: DataJSON,
+) => {
+	const bookmarkButton = document.createElement("button");
+	bookmarkButton.innerHTML = `${svgBookmark}\n${svgBookmarked}`;
+	const svgBookmarkIcon = bookmarkButton.querySelector(
+		"svg:nth-of-type(1)",
+	) as HTMLElement;
+	const svgBookmarkedIcon = bookmarkButton.querySelector(
+		"svg:nth-of-type(2)",
+	) as HTMLElement;
+	if (bookmarkedList[element.title] === true) {
+		svgBookmarkIcon.style.opacity = "0";
+		svgBookmarkedIcon.style.opacity = "1";
+	} else {
+		svgBookmarkIcon.style.opacity = "1";
+		svgBookmarkedIcon.style.opacity = "0";
+	}
+	bookmarkButton.addEventListener("click", () => {
+		if (bookmarkedList[element.title] === true) {
+			bookmarkedList[element.title] = false;
+			svgBookmarkIcon.style.opacity = "1";
+			svgBookmarkedIcon.style.opacity = "0";
+		} else {
+			bookmarkedList[element.title] = true;
+			svgBookmarkIcon.style.opacity = "0";
+			svgBookmarkedIcon.style.opacity = "1";
+		}
+		window.localStorage.setItem(
+			"bookmarkedList",
+			JSON.stringify(bookmarkedList),
+		);
+	});
+	return bookmarkButton;
+};
