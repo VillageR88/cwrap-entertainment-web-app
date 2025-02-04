@@ -8,6 +8,11 @@ const createBookmarkButton = (
 ) => {
 	const bookmarkButton = document.createElement("button");
 	bookmarkButton.innerHTML = `${svgBookmark}\n${svgBookmarked}`;
+	bookmarkButton.setAttribute("aria-label", "Bookmark");
+	bookmarkButton.setAttribute(
+		"aria-pressed",
+		bookmarkedList[element.title] ? "true" : "false",
+	);
 	const svgBookmarkIcon = bookmarkButton.querySelector(
 		"svg:nth-of-type(1)",
 	) as HTMLElement;

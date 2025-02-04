@@ -28,6 +28,56 @@
   },
   "classroom": [
     {
+      "name": "input:-webkit-autofill",
+      "type": "element",
+      "style": "-webkit-box-shadow: 0 0 0 300px #10141E inset; -webkit-text-fill-color: white;"
+    },
+    {
+      "name": "input:-webkit-autofill:hover",
+      "type": "element",
+      "style": "-webkit-box-shadow: 0 0 0 300px #10141E inset; -webkit-text-fill-color: white;"
+    },
+    {
+      "name": "input:-webkit-autofill:focus",
+      "type": "element",
+      "style": "-webkit-box-shadow: 0 0 0 300px #10141E inset; -webkit-text-fill-color: white;"
+    },
+    {
+      "name": "input:-webkit-autofill:active",
+      "type": "element",
+      "style": "-webkit-box-shadow: 0 0 0 300px #10141E inset; -webkit-text-fill-color: white;"
+    },
+    {
+      "name": "input::-webkit-autofill",
+      "type": "element",
+      "style": "-webkit-box-shadow: 0 0 0 300px #10141E inset; -webkit-text-fill-color: white; transition: background-color 500s ease-in-out 0s;"
+    },
+    {
+      "name": "input::-webkit-autofill:hover",
+      "type": "element",
+      "style": "-webkit-box-shadow: 0 0 0 300px #10141E inset; -webkit-text-fill-color: white; transition: background-color 500s ease-in-out 0s;"
+    },
+    {
+      "name": "input::-webkit-autofill:focus",
+      "type": "element",
+      "style": "-webkit-box-shadow: 0 0 0 300px #10141E inset; -webkit-text-fill-color: white; transition: background-color 500s ease-in-out 0s;"
+    },
+    {
+      "name": "input::-webkit-autofill:active",
+      "type": "element",
+      "style": "-webkit-box-shadow: 0 0 0 300px #10141E inset; -webkit-text-fill-color: white; transition: background-color 500s ease-in-out 0s;"
+    },
+    {
+      "name": "input::before",
+      "type": "element",
+      "style": "background-color: #10141E; content: ''; display: block; height: 100%; opacity: 0.6; width: 100%;"
+    },
+    {
+      "name": "input::after",
+      "type": "element",
+      "style": "background-color: #10141E; content: ''; display: block; height: 100%; opacity: 0.6; width: 100%;"
+    },
+    {
       "name": "@view-transition",
       "type": "custom",
       "style": "navigation: auto;"
@@ -65,7 +115,24 @@
     {
       "name": "h2",
       "type": "element",
-      "style": "color: white; font-size: 2rem; font-weight: 200; letter-spacing: -0.03125rem; margin: 0;"
+      "style": "color: white; font-size: 2rem; font-weight: 200; letter-spacing: -0.03125rem; margin: 0;",
+      "mediaQueries": [
+        {
+          "query": "max-width: 768px",
+          "style": "font-size: 1.25rem;"
+        }
+      ]
+    },
+    {
+      "name": "h3",
+      "type": "element",
+      "style": "font-size: 1.5rem;",
+      "mediaQueries": [
+        {
+          "query": "max-width: 768px",
+          "style": "font-size: 1rem;"
+        }
+      ]
     },
     {
       "name": "h3, p",
@@ -80,7 +147,18 @@
     {
       "name": "embla__container",
       "type": "class",
-      "style": "display: flex; gap: 40px; margin-right: 2em;"
+      "style": "cursor: grab; display: flex; gap: 40px; margin-right: 2em;",
+      "mediaQueries": [
+        {
+          "query": "max-width: 768px",
+          "style": "gap: 16px; margin-right: 1em;"
+        }
+      ]
+    },
+    {
+      "name": "embla__container:active",
+      "type": "class",
+      "style": "cursor: grabbing;"
     },
     {
       "name": "embla__slide",
@@ -105,7 +183,13 @@
     {
       "name": "embla__slide > div",
       "type": "class",
-      "style": "background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.75) 100%); border-radius: 0 0 8px 8px; bottom: 0; display: flex; flex-direction: column; gap: 3px; height: 100px; left: 0; padding: 24px; position: absolute; width: 100%; z-index: 1;"
+      "style": "background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.75) 100%); border-radius: 0 0 8px 8px; bottom: 0; display: flex; flex-direction: column; gap: 4px; left: 0; padding: 24px; position: absolute; width: 100%; z-index: 1;",
+      "mediaQueries": [
+        {
+          "query": "max-width: 768px",
+          "style": "padding: 16px;"
+        }
+      ]
     },
     {
       "name": "div-show-gallery > ul > li",
@@ -140,32 +224,68 @@
     {
       "name": "embla__slide > div > div > div > p, .div-show-gallery > ul > li > div > div > div > p",
       "type": "class",
-      "style": "color: rgba(255,255,255,0.75); font-size: 0.9375rem; font-weight: 200;"
+      "style": "color: rgba(255,255,255,0.75); font-size: 0.9375rem; font-weight: 200;",
+      "mediaQueries": [
+        {
+          "query": "max-width: 768px",
+          "style": "font-size: 0.75rem;"
+        }
+      ]
     },
     {
       "name": "embla__slide > div > h3",
       "type": "class",
-      "style": "color: white; font-size: 1.5rem; font-weight: 500;"
+      "style": "color: white; font-size: 1.5rem; font-weight: 500;",
+      "mediaQueries": [
+        {
+          "query": "max-width: 768px",
+          "style": "font-size: 0.94rem;"
+        }
+      ]
     },
     {
       "name": "div-show-gallery > ul > li > div > h3",
       "type": "class",
-      "style": "color: white; font-size: 1.125rem; font-weight: 500;"
+      "style": "color: white; font-size: 1.125rem; font-weight: 500;",
+      "mediaQueries": [
+        {
+          "query": "max-width: 768px",
+          "style": "font-size: 0.88rem;"
+        }
+      ]
     },
     {
       "name": "div-trending-title-ul",
       "type": "id",
-      "style": "display: flex; flex-direction: column-reverse; gap: 32px;"
+      "style": "display: flex; flex-direction: column-reverse; gap: 32px;",
+      "mediaQueries": [
+        {
+          "query": "max-width: 768px",
+          "style": "gap: 16px;"
+        }
+      ]
     },
     {
       "name": "div-show-gallery",
       "type": "class",
-      "style": "display: flex; flex-direction: column; gap: 25px; padding-right: 2em;"
+      "style": "display: flex; flex-direction: column; gap: 25px; padding-right: 2em;",
+      "mediaQueries": [
+        {
+          "query": "max-width: 768px",
+          "style": "gap: 16px; padding-right: 1em;"
+        }
+      ]
     },
     {
       "name": "div-show-gallery > ul",
       "type": "class",
-      "style": "display: grid; gap: 16px; gap: 32px 40px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); width: 100%;"
+      "style": "display: grid; gap: 16px; gap: 32px 40px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); width: 100%;",
+      "mediaQueries": [
+        {
+          "query": "max-width: 768px",
+          "style": "gap: 16px;"
+        }
+      ]
     },
     {
       "name": "div-show-gallery > ul > li",
