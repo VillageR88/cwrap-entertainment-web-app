@@ -2,7 +2,11 @@ import EmblaCarousel from "embla-carousel";
 import type { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
 import type { DataJSON } from "./types";
 import { movieType, seriesType, routeParam } from "./const";
-import { createBookmarkButton, fetchData } from "./functions";
+import {
+	createBookmarkButton,
+	fetchData,
+	createGalleryListContainer,
+} from "./functions";
 const main = document.querySelector("main") as HTMLElement;
 
 fetchData()
@@ -23,9 +27,8 @@ function fillMain(data: DataJSON[]) {
 	const trendingListInnerContainer = document.createElement("div");
 	const trendingListTitle = document.createElement("h2");
 	const trendingList = document.createElement("ul");
-	const galleryListContainer = document.createElement("div");
-	const galleryListTitle = document.createElement("h2");
-	const galleryList = document.createElement("ul");
+	const galleryList1 = document.createElement("ul");
+	const galleryList2 = document.createElement("ul");
 
 	//start of loop
 	for (const element of data) {
@@ -59,21 +62,25 @@ function fillMain(data: DataJSON[]) {
 				trendingList.appendChild(listItem);
 			}
 		}
-		if (routeParam !== "bookmarked") {
-			listItem.appendChild(image);
-			listItem.appendChild(createBookmarkButton(bookmarkedList, element));
-			showInfoInnerDiv.appendChild(showInfoInnerDivYear);
-			showInfoInnerDiv.appendChild(separator.cloneNode(true));
-			showInfoInnerDivType.appendChild(movieTypeDescription);
-			showInfoInnerDiv.appendChild(showInfoInnerDivType);
-			showInfoInnerDiv.appendChild(separator.cloneNode(true));
-			showInfoInnerDiv.appendChild(movieRating);
-			movieInfo.appendChild(showInfoInnerDiv);
-			movieInfo.appendChild(movieTitle);
-			listItem.appendChild(movieInfo);
-			//Here part to be derived for dynamic
-			if (!element.isTrending) {
-				galleryList.appendChild(listItem);
+		listItem.appendChild(image);
+		listItem.appendChild(createBookmarkButton(bookmarkedList, element));
+		showInfoInnerDiv.appendChild(showInfoInnerDivYear);
+		showInfoInnerDiv.appendChild(separator.cloneNode(true));
+		showInfoInnerDivType.appendChild(movieTypeDescription);
+		showInfoInnerDiv.appendChild(showInfoInnerDivType);
+		showInfoInnerDiv.appendChild(separator.cloneNode(true));
+		showInfoInnerDiv.appendChild(movieRating);
+		movieInfo.appendChild(showInfoInnerDiv);
+		movieInfo.appendChild(movieTitle);
+		listItem.appendChild(movieInfo);
+		console.log(element.category);
+		//Here part to be derived for dynamic
+		if (!element.isTrending) {
+			if (routeParam === "" || element.category === "Movie") {
+				galleryList1.appendChild(listItem);
+			}
+			if (routeParam !== "" && element.category !== "Movie") {
+				galleryList2.appendChild(listItem);
 			}
 		}
 	}
@@ -85,25 +92,25 @@ function fillMain(data: DataJSON[]) {
 	trendingList.classList.add("embla__container");
 	trendingListContainer.appendChild(trendingListInnerContainer);
 	trendingListContainer.appendChild(trendingListTitle);
-	//static end
-	//dynamic candidate start
-	galleryListContainer.appendChild(galleryListTitle);
-	galleryListContainer.appendChild(galleryList);
-	galleryListContainer.className = "div-show-gallery";
-	switch (routeParam) {
-		case "movies":
-			galleryListTitle.textContent = "Movies";
-			break;
-		case "tv-series":
-			galleryListTitle.textContent = "TV Series";
-			break;
-		default:
-			galleryListTitle.textContent = "Recommended for you";
-	}
 	if (routeParam === "") {
 		const options: EmblaOptionsType = { loop: false, dragFree: true };
 		EmblaCarousel(trendingListInnerContainer, options) as EmblaCarouselType;
 		main.appendChild(trendingListContainer);
 	}
-	main.appendChild(galleryListContainer);
+	//static end
+	//dynamic candidate start
+	if (routeParam !== "tv-series") {
+		const galleryListContainer = createGalleryListContainer(
+			galleryList1,
+			routeParam === "bookmarked" ? "Bookmarked Movies" : "Movies",
+		);
+		main.appendChild(galleryListContainer);
+	}
+	if (routeParam !== "movies") {
+		const galleryListContainer = createGalleryListContainer(
+			galleryList2,
+			routeParam === "bookmarked" ? "Bookmarked TV Series" : "TV Series",
+		);
+		main.appendChild(galleryListContainer);
+	}
 }

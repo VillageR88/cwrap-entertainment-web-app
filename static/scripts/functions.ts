@@ -59,4 +59,17 @@ async function fetchData(): Promise<DataJSON[]> {
 	return transformedData;
 }
 
-export { createBookmarkButton, fetchData };
+const createGalleryListContainer = (
+	galleryList1: HTMLUListElement,
+	title: string,
+) => {
+	const galleryListContainer = document.createElement("div");
+	const galleryListTitle = document.createElement("h2");
+	galleryListContainer.appendChild(galleryListTitle);
+	galleryListContainer.appendChild(galleryList1);
+	galleryListContainer.className = "div-show-gallery";
+	galleryListTitle.textContent = title;
+	return galleryListContainer;
+};
+
+export { createBookmarkButton, fetchData, createGalleryListContainer };
