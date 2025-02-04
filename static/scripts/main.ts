@@ -1,6 +1,6 @@
 import EmblaCarousel from "embla-carousel";
 import type { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
-import type { DataJSON } from "./types";
+import { type DataJSON, RouteParam } from "./types";
 import { movieType, seriesType, routeParam } from "./const";
 import {
 	createBookmarkButton,
@@ -8,7 +8,17 @@ import {
 	createGalleryListContainer,
 } from "./functions";
 const main = document.querySelector("main") as HTMLElement;
-
+const SEARCH_RESULT_CONTAINER = "search-result-container";
+const EMBLA = "embla";
+const EMBLA_CONTAINER = "embla__container";
+const EMBLA_SLIDE = "embla__slide";
+const DIV_TRENDING_TITLE_UL = "div-trending-title-ul";
+const DIV_SHOW_GALLERY = "div-show-gallery";
+const MOVIE = "Movie";
+const BOOKMARKED_MOVIES = "Bookmarked Movies";
+const BOOKMARKED_TV_SERIES = "Bookmarked TV Series";
+const MOVIES = "Movies";
+const TV_SERIES = "TV Series";
 fetchData()
 	.then((data) => {
 		fillMain(data);
@@ -48,7 +58,7 @@ function fillMain(data: DataJSON[]) {
 		image.alt = element.title;
 		showInfoInnerDivYear.textContent = element.year.toString();
 		separator.textContent = "•";
-		if (element.category === "Movie") {
+		if (element.category === MOVIE) {
 			showInfoInnerDivType.innerHTML = movieType;
 		} else {
 			showInfoInnerDivType.innerHTML = seriesType;
@@ -57,13 +67,13 @@ function fillMain(data: DataJSON[]) {
 			trendingListInnerContainer.appendChild(trendingList);
 
 			if (element.isTrending) {
-				listItem.classList.add("embla__slide");
+				listItem.classList.add(EMBLA_SLIDE);
 				trendingList.appendChild(listItem);
 			}
 		}
 		listItem.appendChild(image);
 		const unBooked = () => {
-			if (routeParam === "bookmarked") {
+			if (routeParam === RouteParam.BOOKMARKED) {
 				listItem.remove();
 				for (const element of main.querySelectorAll("div:has(ul)")) {
 					if (element.querySelector("ul")?.childElementCount === 0) {
@@ -84,22 +94,25 @@ function fillMain(data: DataJSON[]) {
 		movieInfo.appendChild(showInfoInnerDiv);
 		movieInfo.appendChild(movieTitle);
 		listItem.appendChild(movieInfo);
-		if (!element.isTrending || routeParam !== "") {
-			if (routeParam === "bookmarked" && !bookmarkedList[element.title])
+		if (!element.isTrending || routeParam !== RouteParam.HOME) {
+			if (
+				routeParam === RouteParam.BOOKMARKED &&
+				!bookmarkedList[element.title]
+			)
 				continue;
 
-			if (routeParam === "" || element.category === "Movie") {
+			if (routeParam === "" || element.category === MOVIE) {
 				galleryList1.appendChild(listItem);
 			}
-			if (routeParam !== "" && element.category !== "Movie") {
+			if (routeParam !== "" && element.category !== MOVIE) {
 				galleryList2.appendChild(listItem);
 			}
 		}
 	}
 	trendingListTitle.textContent = "Trending";
-	trendingListContainer.id = "div-trending-title-ul";
-	trendingListInnerContainer.classList.add("embla");
-	trendingList.classList.add("embla__container");
+	trendingListContainer.id = DIV_TRENDING_TITLE_UL;
+	trendingListInnerContainer.classList.add(EMBLA);
+	trendingList.classList.add(EMBLA_CONTAINER);
 	trendingListContainer.appendChild(trendingListInnerContainer);
 	trendingListContainer.appendChild(trendingListTitle);
 	if (routeParam === "") {
@@ -111,26 +124,26 @@ function fillMain(data: DataJSON[]) {
 		if (galleryList1.childElementCount > 0) {
 			const galleryListContainer = createGalleryListContainer(
 				galleryList1,
-				routeParam === "bookmarked" ? "Bookmarked Movies" : "Movies",
+				routeParam === RouteParam.BOOKMARKED ? BOOKMARKED_MOVIES : MOVIES,
 			);
 			main.appendChild(galleryListContainer);
 		}
 	}
-	if (routeParam !== "movies") {
+	if (routeParam !== RouteParam.MOVIES) {
 		if (galleryList2.childElementCount > 0) {
 			const galleryListContainer = createGalleryListContainer(
 				galleryList2,
-				routeParam === "bookmarked" ? "Bookmarked TV Series" : "TV Series",
+				routeParam === RouteParam.BOOKMARKED ? BOOKMARKED_TV_SERIES : TV_SERIES,
 			);
 			main.appendChild(galleryListContainer);
 		}
 	}
 	const loadedGalleries = main.querySelectorAll(
-		"#div-trending-title-ul, .div-show-gallery",
+		`#${DIV_TRENDING_TITLE_UL}, .${DIV_SHOW_GALLERY}`,
 	);
 	if (search) {
 		search.addEventListener("input", () => {
-			document.getElementById("search-result-container")?.remove();
+			document.getElementById(SEARCH_RESULT_CONTAINER)?.remove();
 			let numberOfResults = 0;
 			const gallerySearchList = document.createElement("ul");
 			for (const item of loadedGalleries) {
@@ -142,7 +155,7 @@ function fillMain(data: DataJSON[]) {
 							const clonedFoundListItem = foundListItem.cloneNode(
 								true,
 							) as HTMLUListElement;
-							clonedFoundListItem.classList.remove("embla__slide");
+							clonedFoundListItem.classList.remove(EMBLA_SLIDE);
 							gallerySearchList.appendChild(clonedFoundListItem);
 							numberOfResults++;
 						}
@@ -160,11 +173,11 @@ function fillMain(data: DataJSON[]) {
 				const searchListContainer = createGalleryListContainer(
 					gallerySearchList,
 					gallerySearchListTitle,
-					"search-result-container",
+					SEARCH_RESULT_CONTAINER,
 				);
 				main.insertBefore(
 					searchListContainer,
-					document.querySelector(".div-show-gallery"),
+					document.querySelector(`.${DIV_SHOW_GALLERY}`),
 				);
 			}
 		});

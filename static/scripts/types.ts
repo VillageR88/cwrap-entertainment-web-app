@@ -1,3 +1,10 @@
+enum RouteParam {
+	HOME = "",
+	MOVIES = "movies",
+	TV_SERIES = "tv-series",
+	BOOKMARKED = "bookmarked",
+}
+
 type DataJSON = {
 	title: string;
 	thumbnail: {
@@ -18,6 +25,10 @@ type DataJSON = {
 	isTrending: boolean;
 };
 
-type RouteParam = "" | "movies" | "tv-series" | "bookmarked";
+type TRouteParam =
+	| RouteParam.HOME
+	| RouteParam.MOVIES
+	| RouteParam.TV_SERIES
+	| RouteParam.BOOKMARKED;
 
-export type { DataJSON, RouteParam };
+export { type DataJSON, type TRouteParam, RouteParam };
