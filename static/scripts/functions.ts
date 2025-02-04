@@ -4,6 +4,7 @@ import { svgBookmarked, svgBookmark, routeParam } from "./const";
 const createBookmarkButton = (
 	bookmarkedList: Record<string, boolean>,
 	element: DataJSON,
+	unBooked: () => void,
 ) => {
 	const bookmarkButton = document.createElement("button");
 	bookmarkButton.innerHTML = `${svgBookmark}\n${svgBookmarked}`;
@@ -25,6 +26,7 @@ const createBookmarkButton = (
 			bookmarkedList[element.title] = false;
 			svgBookmarkIcon.style.opacity = "1";
 			svgBookmarkedIcon.style.opacity = "0";
+			unBooked();
 		} else {
 			bookmarkedList[element.title] = true;
 			svgBookmarkIcon.style.opacity = "0";

@@ -63,7 +63,12 @@ function fillMain(data: DataJSON[]) {
 			}
 		}
 		listItem.appendChild(image);
-		listItem.appendChild(createBookmarkButton(bookmarkedList, element));
+		const unBooked = () => {
+			if (routeParam === "bookmarked") listItem.remove();
+		};
+		listItem.appendChild(
+			createBookmarkButton(bookmarkedList, element, unBooked),
+		);
 		showInfoInnerDiv.appendChild(showInfoInnerDivYear);
 		showInfoInnerDiv.appendChild(separator.cloneNode(true));
 		showInfoInnerDivType.appendChild(movieTypeDescription);
