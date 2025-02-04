@@ -42,7 +42,6 @@ function fillMain(data: DataJSON[]) {
 		movieTypeDescription.textContent = element.category;
 		movieRating.textContent = element.rating;
 		movieTitle.textContent = element.title;
-
 		image.src = element.thumbnail.regular.large;
 		image.alt = element.title;
 		showInfoInnerDivYear.textContent = element.year.toString();
@@ -72,19 +71,22 @@ function fillMain(data: DataJSON[]) {
 			movieInfo.appendChild(showInfoInnerDiv);
 			movieInfo.appendChild(movieTitle);
 			listItem.appendChild(movieInfo);
+			//Here part to be derived for dynamic
 			if (!element.isTrending) {
 				galleryList.appendChild(listItem);
 			}
 		}
 	}
 	//end of loop
+	//static start
 	trendingListTitle.textContent = "Trending";
 	trendingListContainer.id = "div-trending-title-ul";
 	trendingListInnerContainer.classList.add("embla");
 	trendingList.classList.add("embla__container");
 	trendingListContainer.appendChild(trendingListInnerContainer);
 	trendingListContainer.appendChild(trendingListTitle);
-
+	//static end
+	//dynamic candidate start
 	galleryListContainer.appendChild(galleryListTitle);
 	galleryListContainer.appendChild(galleryList);
 	galleryListContainer.className = "div-show-gallery";
@@ -94,6 +96,9 @@ function fillMain(data: DataJSON[]) {
 			break;
 		case "tv-series":
 			galleryListTitle.textContent = "TV Series";
+			break;
+		default:
+			galleryListTitle.textContent = "Recommended for you";
 	}
 	if (routeParam === "") {
 		const options: EmblaOptionsType = { loop: false, dragFree: true };
