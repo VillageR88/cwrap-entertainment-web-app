@@ -73,9 +73,11 @@ function fillMain(data: DataJSON[]) {
 		movieInfo.appendChild(showInfoInnerDiv);
 		movieInfo.appendChild(movieTitle);
 		listItem.appendChild(movieInfo);
-		console.log(element.category);
 		//Here part to be derived for dynamic
 		if (!element.isTrending) {
+			if (routeParam === "bookmarked" && !bookmarkedList[element.title])
+				continue;
+
 			if (routeParam === "" || element.category === "Movie") {
 				galleryList1.appendChild(listItem);
 			}
