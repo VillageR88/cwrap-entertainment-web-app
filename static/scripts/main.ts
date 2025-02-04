@@ -16,7 +16,6 @@ fetchData()
 	.catch((error) => {
 		console.error("Error fetching data:", error);
 	});
-
 function fillMain(data: DataJSON[]) {
 	const storage = window.localStorage.getItem("bookmarkedList");
 	let bookmarkedList: Record<string, boolean> = {};
@@ -29,8 +28,6 @@ function fillMain(data: DataJSON[]) {
 	const trendingList = document.createElement("ul");
 	const galleryList1 = document.createElement("ul");
 	const galleryList2 = document.createElement("ul");
-
-	//start of loop
 	for (const element of data) {
 		const listItem = document.createElement("li");
 		const image = document.createElement("img");
@@ -64,7 +61,14 @@ function fillMain(data: DataJSON[]) {
 		}
 		listItem.appendChild(image);
 		const unBooked = () => {
-			if (routeParam === "bookmarked") listItem.remove();
+			if (routeParam === "bookmarked") {
+				listItem.remove();
+				for (const element of main.querySelectorAll("div:has(ul)")) {
+					if (element.querySelector("ul")?.childElementCount === 0) {
+						element.remove();
+					}
+				}
+			}
 		};
 		listItem.appendChild(
 			createBookmarkButton(bookmarkedList, element, unBooked),
@@ -78,8 +82,7 @@ function fillMain(data: DataJSON[]) {
 		movieInfo.appendChild(showInfoInnerDiv);
 		movieInfo.appendChild(movieTitle);
 		listItem.appendChild(movieInfo);
-		//Here part to be derived for dynamic
-		if (!element.isTrending) {
+		if (!element.isTrending || routeParam !== "") {
 			if (routeParam === "bookmarked" && !bookmarkedList[element.title])
 				continue;
 
@@ -91,8 +94,6 @@ function fillMain(data: DataJSON[]) {
 			}
 		}
 	}
-	//end of loop
-	//static start
 	trendingListTitle.textContent = "Trending";
 	trendingListContainer.id = "div-trending-title-ul";
 	trendingListInnerContainer.classList.add("embla");
@@ -104,20 +105,22 @@ function fillMain(data: DataJSON[]) {
 		EmblaCarousel(trendingListInnerContainer, options) as EmblaCarouselType;
 		main.appendChild(trendingListContainer);
 	}
-	//static end
-	//dynamic candidate start
 	if (routeParam !== "tv-series") {
-		const galleryListContainer = createGalleryListContainer(
-			galleryList1,
-			routeParam === "bookmarked" ? "Bookmarked Movies" : "Movies",
-		);
-		main.appendChild(galleryListContainer);
+		if (galleryList1.childElementCount > 0) {
+			const galleryListContainer = createGalleryListContainer(
+				galleryList1,
+				routeParam === "bookmarked" ? "Bookmarked Movies" : "Movies",
+			);
+			main.appendChild(galleryListContainer);
+		}
 	}
 	if (routeParam !== "movies") {
-		const galleryListContainer = createGalleryListContainer(
-			galleryList2,
-			routeParam === "bookmarked" ? "Bookmarked TV Series" : "TV Series",
-		);
-		main.appendChild(galleryListContainer);
+		if (galleryList2.childElementCount > 0) {
+			const galleryListContainer = createGalleryListContainer(
+				galleryList2,
+				routeParam === "bookmarked" ? "Bookmarked TV Series" : "TV Series",
+			);
+			main.appendChild(galleryListContainer);
+		}
 	}
 }
