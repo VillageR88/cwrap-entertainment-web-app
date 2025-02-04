@@ -138,7 +138,7 @@ function fillMain(data: DataJSON[]) {
 	}
 	//end of loop
 	recommendedListContainer.id = "div-recommended-title-ul";
-	recommendedListContainer.className = "div-recommended";
+	recommendedListContainer.className = "div-show-gallery";
 	switch (routeParam) {
 		case "movies":
 			recommendedListTitle.textContent = "Movies";
