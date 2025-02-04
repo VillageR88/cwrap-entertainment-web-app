@@ -1,5 +1,5 @@
 import type { DataJSON } from "./types";
-import { svgBookmarked, svgBookmark } from "./const";
+import { svgBookmarked, svgBookmark, routeParam } from "./const";
 
 const createBookmarkButton = (
 	bookmarkedList: Record<string, boolean>,
@@ -38,4 +38,25 @@ const createBookmarkButton = (
 	return bookmarkButton;
 };
 
-export { createBookmarkButton };
+async function fetchData(): Promise<DataJSON[]> {
+	const response = await fetch(
+		`${routeParam?.length > 0 ? ".." : "."}/static/data.json`,
+	);
+	if (!response.ok) {
+		throw new Error(
+			`Failed to fetch data: ${response.status} ${response.statusText}`,
+		);
+	}
+
+	const dataJson = await response.json();
+	const transformedData = JSON.parse(
+		JSON.stringify(dataJson).replace(
+			/.assets/g,
+			`${routeParam?.length > 0 ? "." : ""}/static/images`,
+		),
+	) as DataJSON[];
+
+	return transformedData;
+}
+
+export { createBookmarkButton, fetchData };

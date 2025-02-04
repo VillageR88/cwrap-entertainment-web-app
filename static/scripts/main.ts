@@ -1,31 +1,9 @@
 import EmblaCarousel from "embla-carousel";
 import type { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
-import type { DataJSON, RouteParam } from "./types";
-import { movieType, seriesType } from "./const";
-import { createBookmarkButton } from "./functions";
+import type { DataJSON } from "./types";
+import { movieType, seriesType, routeParam } from "./const";
+import { createBookmarkButton, fetchData } from "./functions";
 const main = document.querySelector("main") as HTMLElement;
-const mainScript = document.getElementById("main-script") as HTMLScriptElement;
-const routeParam = mainScript.dataset.param as RouteParam;
-async function fetchData(): Promise<DataJSON[]> {
-	const response = await fetch(
-		`${routeParam?.length > 0 ? ".." : "."}/static/data.json`,
-	);
-	if (!response.ok) {
-		throw new Error(
-			`Failed to fetch data: ${response.status} ${response.statusText}`,
-		);
-	}
-
-	const dataJson = await response.json();
-	const transformedData = JSON.parse(
-		JSON.stringify(dataJson).replace(
-			/.assets/g,
-			`${routeParam?.length > 0 ? "." : ""}/static/images`,
-		),
-	) as DataJSON[];
-
-	return transformedData;
-}
 
 fetchData()
 	.then((data) => {
