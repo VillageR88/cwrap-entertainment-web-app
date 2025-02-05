@@ -585,8 +585,9 @@ function generateHeadHtml(head, jsonFile, dynamicallyInvokedRoute) {
 
   // Calculate the depth based on the JSON file's path relative to the routes folder
   const relativePath = path.relative(path.join(__dirname, "routes"), jsonFile);
+  console.log(dynamicallyInvokedRoute.split("/").filter(Boolean));
   const depth = dynamicallyInvokedRoute
-    ? dynamicallyInvokedRoute.split("/").length - 1
+    ? dynamicallyInvokedRoute.split("/").filter(Boolean).length
     : relativePath.split(/[\\/]/).length - 1;
   const globalsCssPath = `${"../".repeat(depth)}globals.css`;
   headHtml += `    <link rel="stylesheet" href="${globalsCssPath}">\n`;
