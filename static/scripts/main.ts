@@ -1,7 +1,7 @@
 import EmblaCarousel from "embla-carousel";
 import type { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
 import { type DataJSON, RouteParam } from "./types";
-import { movieType, seriesType, routeParam } from "./const";
+import { movieType, seriesType, routeParam, svgPlay } from "./const";
 import {
 	createBookmarkButton,
 	fetchData,
@@ -19,6 +19,7 @@ const BOOKMARKED_MOVIES = "Bookmarked Movies";
 const BOOKMARKED_TV_SERIES = "Bookmarked TV Series";
 const MOVIES = "Movies";
 const TV_SERIES = "TV Series";
+const PLAY = "Play";
 fetchData()
 	.then((data) => {
 		fillMain(data);
@@ -43,6 +44,10 @@ function fillMain(data: DataJSON[]) {
 	for (const element of data) {
 		const listItem = document.createElement("li");
 		const image = document.createElement("img");
+		const iconPlay = document.createElement("img");
+		const spanPlay = document.createElement("span");
+		const maskPlay = document.createElement("div");
+		const maskPlayInner = document.createElement("div");
 		const movieInfo = document.createElement("div");
 		const showInfoInnerDiv = document.createElement("div");
 		const showInfoInnerDivYear = document.createElement("p");
@@ -56,6 +61,9 @@ function fillMain(data: DataJSON[]) {
 		movieTitle.textContent = element.title;
 		image.src = element.thumbnail.regular.large;
 		image.alt = element.title;
+		iconPlay.src = "./static/images/icon-play.svg";
+		iconPlay.alt = "play icon";
+		spanPlay.textContent = PLAY;
 		showInfoInnerDivYear.textContent = element.year.toString();
 		separator.textContent = "•";
 		if (element.category === MOVIE) {
@@ -93,6 +101,10 @@ function fillMain(data: DataJSON[]) {
 		showInfoInnerDiv.appendChild(movieRating);
 		movieInfo.appendChild(showInfoInnerDiv);
 		movieInfo.appendChild(movieTitle);
+		maskPlayInner.appendChild(iconPlay);
+		maskPlayInner.appendChild(spanPlay);
+		maskPlay.appendChild(maskPlayInner);
+		listItem.appendChild(maskPlay);
 		listItem.appendChild(movieInfo);
 		if (!element.isTrending || routeParam !== RouteParam.HOME) {
 			if (
