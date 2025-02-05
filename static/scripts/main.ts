@@ -1,7 +1,7 @@
 import EmblaCarousel from "embla-carousel";
 import type { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
 import { type DataJSON, RouteParam } from "./types";
-import { movieType, seriesType, routeParam, svgPlay } from "./const";
+import { movieType, seriesType, routeParam, prefix } from "./const";
 import {
 	createBookmarkButton,
 	fetchData,
@@ -61,11 +61,12 @@ function fillMain(data: DataJSON[]) {
 		movieTitle.textContent = element.title;
 		image.src = element.thumbnail.regular.large;
 		image.alt = element.title;
-		iconPlay.src = "./static/images/icon-play.svg";
+		iconPlay.src = `${prefix}/static/images/icon-play.svg`;
 		iconPlay.alt = "play icon";
 		spanPlay.textContent = PLAY;
 		showInfoInnerDivYear.textContent = element.year.toString();
 		separator.textContent = "•";
+		listItem.setAttribute("tabindex", "0");
 		if (element.category === MOVIE) {
 			showInfoInnerDivType.innerHTML = movieType;
 		} else {
