@@ -19,6 +19,7 @@ const BOOKMARKED_MOVIES = "Bookmarked Movies";
 const BOOKMARKED_TV_SERIES = "Bookmarked TV Series";
 const MOVIES = "Movies";
 const TV_SERIES = "TV Series";
+const RECOMMENDED_FOR_YOU = "Recommended for you";
 const PLAY = "Play";
 fetchData()
 	.then((data) => {
@@ -137,7 +138,11 @@ function fillMain(data: DataJSON[]) {
 		if (galleryList1.childElementCount > 0) {
 			const galleryListContainer = createGalleryListContainer(
 				galleryList1,
-				routeParam === RouteParam.BOOKMARKED ? BOOKMARKED_MOVIES : MOVIES,
+				routeParam === RouteParam.BOOKMARKED
+					? BOOKMARKED_MOVIES
+					: routeParam === RouteParam.HOME
+						? RECOMMENDED_FOR_YOU
+						: MOVIES,
 			);
 			main.appendChild(galleryListContainer);
 		}
@@ -162,7 +167,9 @@ function fillMain(data: DataJSON[]) {
 			for (const item of loadedGalleries) {
 				const itemTitleList = item.querySelectorAll("h3");
 				for (const title of itemTitleList) {
-					if (title.textContent?.toLowerCase()?.match(search.value)) {
+					if (
+						title.textContent?.toLowerCase()?.match(search.value.toLowerCase())
+					) {
 						const foundListItem = title.parentElement?.parentElement;
 						if (foundListItem) {
 							const clonedFoundListItem = foundListItem.cloneNode(
